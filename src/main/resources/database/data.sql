@@ -1,0 +1,77 @@
+-- DROP TABLE IF EXISTS User;
+--
+-- CREATE TABLE User (
+--   id INT AUTO_INCREMENT  PRIMARY KEY,
+--   lastName VARCHAR(250) NOT NULL,
+--   firstName VARCHAR(250) NOT NULL,
+--   middleName VARCHAR(250) NOT NULL
+-- );
+--
+-- INSERT INTO User (id, lastName, firstName, middleName) VALUES
+--   (1, 'Dmitry', 'Rastorguev', 'Ivanovich'),
+--   (2, 'Dmitry2', 'Rastorguev2', 'Ivanovich2'),
+--   (3, 'Dmitry3', 'Rastorguev3', 'Ivanovich3');
+--
+--
+-- DROP TABLE IF EXISTS UserPrivateData;
+--
+-- CREATE TABLE UserPrivateData (
+--   id INT AUTO_INCREMENT  PRIMARY KEY,
+--   login VARCHAR(250) NOT NULL,
+--   password VARCHAR(250) NOT NULL,
+--   ownerId VARCHAR(250) NOT NULL
+-- );
+--
+-- INSERT INTO UserPrivateData (login, password, ownerId) VALUES
+--   ('Rastorguev', 'dima', '1'),
+--   ('Rastorguev2', 'dima2', '2'),
+--   ('Rastorguev3', 'dima3', '3');
+--
+--
+-- DROP TABLE IF EXISTS Card;
+--
+-- CREATE TABLE Card (
+--   number INT AUTO_INCREMENT  PRIMARY KEY,
+--   amountOfMoneyOnCard VARCHAR(250) NOT NULL,
+--   ownerId VARCHAR(250) NOT NULL
+-- );
+--
+-- INSERT INTO Card (number, amountOfMoneyOnCard, ownerId) VALUES
+--   ('7', '100', '1'),
+--   ('8', '200', '1'),
+--   ('9', '300', '1'),
+--   ('10', '500', '2'),
+--   ('11', '0', '3');
+
+
+--
+--             moneyTransferService.makeIncomingTransactionWithThirdPartySource(card1.getNumber(), 1500, THIRD_PARTY_SOURS_FOU_TRANSACTION);
+--             moneyTransferService.makeIncomingTransactionWithThirdPartySource(card2.getNumber(), 2500, THIRD_PARTY_SOURS_FOU_TRANSACTION);
+--             moneyTransferService.makeIncomingTransactionWithThirdPartySource(card3.getNumber(), 1500, THIRD_PARTY_SOURS_FOU_TRANSACTION);
+--             moneyTransferService.makeIncomingTransactionWithThirdPartySource(card4.getNumber(), 1500, THIRD_PARTY_SOURS_FOU_TRANSACTION);
+--             moneyTransferService
+--                     .makeTransaction(
+--                             new MoneyTransfer(
+--                                     card4.getNumber(),
+--                                     card2.getNumber(),
+--                                     500,
+--                                     System.currentTimeMillis() - 1_000 * 60 * 60 * 24 * 20
+--                             ));
+--
+--             moneyTransferService
+--                     .makeTransaction(
+--                             new MoneyTransfer(
+--                                     card4.getNumber(),
+--                                     card2.getNumber(),
+--                                     800,
+--                                     System.currentTimeMillis() - 1_000 * 60 * 60 * 24 * 10
+--                             ));
+--
+--             moneyTransferService
+--                     .makeTransaction(
+--                             new MoneyTransfer(
+--                                     card3.getNumber(),
+--                                     card2.getNumber(),
+--                                     900,
+--                                     System.currentTimeMillis() - 1_000 * 60 * 60 * 24 * 5
+--                             ));
