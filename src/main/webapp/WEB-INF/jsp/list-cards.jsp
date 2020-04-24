@@ -13,7 +13,7 @@
     <a type="button" class="btn btn-success"
        href="/">Exit</a>
     <a type="button" class="btn btn-success"
-       href="/history-of-operation-findAllByTimeToCompleteTransferLastTwoHours">history of operation</a>
+       href="/history-of-operation-findAllOutgoingOperationByTimeToCompleteTransferLastTwoHours">history of operation</a>
 </div>
 <div>
 

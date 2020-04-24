@@ -1,7 +1,7 @@
 package com.rastorguev.moneyTransferFromCards.web.controller;
 
-import com.rastorguev.moneyTransferFromCards.web.model.dto.User;
-import com.rastorguev.moneyTransferFromCards.web.model.dto.UserPrivateData;
+import com.rastorguev.moneyTransferFromCards.web.model.entity.User;
+import com.rastorguev.moneyTransferFromCards.web.model.entity.UserPrivateData;
 import com.rastorguev.moneyTransferFromCards.web.service.LoginService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;

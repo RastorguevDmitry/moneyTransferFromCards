@@ -1,9 +1,9 @@
 package com.rastorguev.moneyTransferFromCards.web.controller;
 
 
-import com.rastorguev.moneyTransferFromCards.web.model.dto.Card;
-import com.rastorguev.moneyTransferFromCards.web.model.dto.MoneyTransfer;
-import com.rastorguev.moneyTransferFromCards.web.model.dto.User;
+import com.rastorguev.moneyTransferFromCards.web.model.entity.Card;
+import com.rastorguev.moneyTransferFromCards.web.model.entity.MoneyTransfer;
+import com.rastorguev.moneyTransferFromCards.web.model.entity.User;
 import com.rastorguev.moneyTransferFromCards.web.service.CardService;
 import com.rastorguev.moneyTransferFromCards.web.service.MoneyTransferService;
 import com.rastorguev.moneyTransferFromCards.web.service.UserService;
@@ -139,12 +139,13 @@ public class MoneyTransferController {
         return "history-of-operation";
     }
 
-    @RequestMapping(value = "/history-of-operation-findAllByTimeToCompleteTransferLastTwoHours", method = RequestMethod.GET)
-    public String openHistoryOfOperationPageFindAllByTimeToCompleteTransferLastTwoHours(ModelMap model) {
-        return "redirect:/history-of-operation-findAllByTimeToCompleteTransferBetween" +
+    @RequestMapping(value = "/history-of-operation-findAllOutgoingOperationByTimeToCompleteTransferLastTwoHours", method = RequestMethod.GET)
+    public String openHistoryOfOperationPageFindAllOutgoingOperationByTimeToCompleteTransferLastTwoHours(ModelMap model) {
+        return "redirect:/history-of-operation-findAllOutgoingOperationByTimeToCompleteTransferBetween" +
                 "?timeToCompleteTransferFrom=" + (System.currentTimeMillis() - 2L * 60 * 60 * 1000) +
                 "&timeToCompleteTransferTo=" + System.currentTimeMillis();
     }
+
 
 
     //▪	Сумма переводов в разрезе счетов получателей за период

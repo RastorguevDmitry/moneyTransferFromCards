@@ -1,4 +1,4 @@
-package com.rastorguev.moneyTransferFromCards.web.model.dto;
+package com.rastorguev.moneyTransferFromCards.web.model.entity;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -9,7 +9,7 @@ public class User implements Serializable {
 
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @Column(nullable = false)

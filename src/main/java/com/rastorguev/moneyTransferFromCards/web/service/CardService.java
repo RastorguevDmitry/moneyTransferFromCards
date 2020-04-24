@@ -1,6 +1,6 @@
 package com.rastorguev.moneyTransferFromCards.web.service;
 
-import com.rastorguev.moneyTransferFromCards.web.model.dto.Card;
+import com.rastorguev.moneyTransferFromCards.web.model.entity.Card;
 import com.rastorguev.moneyTransferFromCards.web.repository.CardRepository;
 import org.springframework.stereotype.Service;
 

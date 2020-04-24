@@ -1,4 +1,4 @@
-package com.rastorguev.moneyTransferFromCards.web.model.dto;
+package com.rastorguev.moneyTransferFromCards.web.model.entity;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -8,7 +8,7 @@ public class Card implements Serializable {
 
     private static final long serialVersionUID = -6453559436168273059L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long number;
     @Column
     private float amountOfMoneyOnCard;

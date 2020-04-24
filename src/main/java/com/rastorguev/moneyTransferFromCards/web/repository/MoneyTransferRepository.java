@@ -1,6 +1,6 @@
 package com.rastorguev.moneyTransferFromCards.web.repository;
 
-import com.rastorguev.moneyTransferFromCards.web.model.dto.MoneyTransfer;
+import com.rastorguev.moneyTransferFromCards.web.model.entity.MoneyTransfer;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
