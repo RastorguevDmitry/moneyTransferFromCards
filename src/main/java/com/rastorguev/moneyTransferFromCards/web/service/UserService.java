@@ -4,11 +4,12 @@ import com.rastorguev.moneyTransferFromCards.web.model.entity.User;
 import com.rastorguev.moneyTransferFromCards.web.model.entity.UserPrivateData;
 import com.rastorguev.moneyTransferFromCards.web.repository.UserPrivateDataRepository;
 import com.rastorguev.moneyTransferFromCards.web.repository.UserRepository;
+import com.rastorguev.moneyTransferFromCards.web.service.interfaces.IUserService;
 import org.springframework.stereotype.Service;
 
 
 @Service
-public class UserService {
+public class UserService implements IUserService {
 
     final UserRepository userRepository;
     final UserPrivateDataRepository userPrivateDataRepository;
@@ -18,27 +19,27 @@ public class UserService {
         this.userPrivateDataRepository = userPrivateDataRepository;
     }
 
-
-    public User retrieveUserByLoginAndPassword(String login, String password) {
-
+    @Override
+    public User findUserByLoginAndPassword(String login, String password) {
         long userID = (userPrivateDataRepository.findByLoginAndPassword(login, password)).getOwnerId();
-
         return userRepository.findById(userID).get();
     }
 
-    public User retrieveUserById(long id) {
+    @Override
+    public User findUserById(long id) {
         return userRepository.findById(id).get();
     }
 
-
-    public User createNewUser(User user, UserPrivateData userPrivateData) {
+    @Override
+    public User createUser(User user, UserPrivateData userPrivateData) {
         User newUser = userRepository.save(new User(user.getLastName(), user.getFirstName(), user.getMiddleName()));
         userPrivateData.setOwnerId(newUser.getId());
         userPrivateDataRepository.save(userPrivateData);
         return newUser;
     }
 
-    public boolean checkExistenceUserWithSuchLogin(String login) {
+    @Override
+    public boolean isUserWithSuchLoginExist(String login) {
         return userPrivateDataRepository.existsByLogin(login);
     }
 

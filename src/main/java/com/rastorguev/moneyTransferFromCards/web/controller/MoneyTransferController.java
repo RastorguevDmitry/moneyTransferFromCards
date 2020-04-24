@@ -4,9 +4,9 @@ package com.rastorguev.moneyTransferFromCards.web.controller;
 import com.rastorguev.moneyTransferFromCards.web.model.entity.Card;
 import com.rastorguev.moneyTransferFromCards.web.model.entity.MoneyTransfer;
 import com.rastorguev.moneyTransferFromCards.web.model.entity.User;
-import com.rastorguev.moneyTransferFromCards.web.service.CardService;
-import com.rastorguev.moneyTransferFromCards.web.service.MoneyTransferService;
-import com.rastorguev.moneyTransferFromCards.web.service.UserService;
+import com.rastorguev.moneyTransferFromCards.web.service.interfaces.ICardService;
+import com.rastorguev.moneyTransferFromCards.web.service.interfaces.IMoneyTransferService;
+import com.rastorguev.moneyTransferFromCards.web.service.interfaces.IUserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -25,13 +25,13 @@ public class MoneyTransferController {
 
 
     final
-    CardService cardService;
+    ICardService cardService;
     final
-    UserService userService;
+    IUserService userService;
     final
-    MoneyTransferService moneyTransferService;
+    IMoneyTransferService moneyTransferService;
 
-    public MoneyTransferController(CardService cardService, UserService userService, MoneyTransferService moneyTransferService) {
+    public MoneyTransferController(ICardService cardService, IUserService userService, IMoneyTransferService moneyTransferService) {
         this.cardService = cardService;
         this.userService = userService;
         this.moneyTransferService = moneyTransferService;
@@ -46,7 +46,7 @@ public class MoneyTransferController {
     @RequestMapping(value = "/transfer-card", method = RequestMethod.GET)
     public String openTransferMoneyFromCardPage(@RequestParam long number, ModelMap model) {
 
-        Card card = cardService.retrieveCardByCardNumber(number);
+        Card card = cardService.findCardByCardNumber(number);
 
         MoneyTransfer moneyTransfer = new MoneyTransfer();
         moneyTransfer.setOutgoingCardNumber(card.getNumber());
@@ -73,13 +73,13 @@ public class MoneyTransferController {
         }
         long incomingCardOwner = 0;
         try {
-            incomingCardOwner = cardService.retrieveOwnerIdByCardNumber(moneyTransfer.getIncomingCardNumber());
+            incomingCardOwner = cardService.findOwnerIdByCardNumber(moneyTransfer.getIncomingCardNumber());
         } catch (NoSuchElementException e) {
             model.put("errorMessage", "not such card");
             model.put("userOutgoingTransfer", new User());
             return "transfer-card";
         }
-        userOutgoingTransfer = userService.retrieveUserById(incomingCardOwner);
+        userOutgoingTransfer = userService.findUserById(incomingCardOwner);
         model.put("userOutgoingTransfer", userOutgoingTransfer);
         return "transfer-card-confirm-step";
     }

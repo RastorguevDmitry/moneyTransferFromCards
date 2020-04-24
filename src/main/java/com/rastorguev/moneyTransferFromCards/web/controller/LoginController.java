@@ -2,7 +2,7 @@ package com.rastorguev.moneyTransferFromCards.web.controller;
 
 import com.rastorguev.moneyTransferFromCards.web.model.entity.User;
 import com.rastorguev.moneyTransferFromCards.web.model.entity.UserPrivateData;
-import com.rastorguev.moneyTransferFromCards.web.service.LoginService;
+import com.rastorguev.moneyTransferFromCards.web.service.interfaces.ILoginService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,9 +15,9 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 public class LoginController {
 
     final
-    LoginService loginService;
+    ILoginService loginService;
 
-    public LoginController(LoginService loginService) {
+    public LoginController(ILoginService loginService) {
         this.loginService = loginService;
     }
 

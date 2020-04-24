@@ -3,6 +3,8 @@ package com.rastorguev.moneyTransferFromCards.web.service;
 import com.rastorguev.moneyTransferFromCards.web.model.entity.MoneyTransfer;
 import com.rastorguev.moneyTransferFromCards.web.model.entity.User;
 import com.rastorguev.moneyTransferFromCards.web.repository.MoneyTransferRepository;
+import com.rastorguev.moneyTransferFromCards.web.service.interfaces.ICardService;
+import com.rastorguev.moneyTransferFromCards.web.service.interfaces.IMoneyTransferService;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
@@ -11,19 +13,20 @@ import java.util.Set;
 import java.util.stream.StreamSupport;
 
 @Service
-public class MoneyTransferService {
+public class MoneyTransferService implements IMoneyTransferService {
 
     final
-    CardService cardService;
+    ICardService cardService;
 
     final
     MoneyTransferRepository moneyTransferRepository;
 
-    public MoneyTransferService(CardService cardService, MoneyTransferRepository moneyTransferRepository) {
+    public MoneyTransferService(ICardService cardService, MoneyTransferRepository moneyTransferRepository) {
         this.cardService = cardService;
         this.moneyTransferRepository = moneyTransferRepository;
     }
 
+    @Override
     public void makeTransaction(MoneyTransfer moneyTransfer) {
         cardService.makeTransaction(moneyTransfer.getOutgoingCardNumber(), moneyTransfer.getIncomingCardNumber(), moneyTransfer.getAmountOfMoney());
         if (moneyTransfer.getTimeToCompleteTransfer() == 0) {
@@ -32,12 +35,14 @@ public class MoneyTransferService {
         moneyTransferRepository.save(moneyTransfer);
     }
 
+    @Override
     public void makeIncomingTransactionWithThirdPartySource(long cardNumber, float money, long source) {
         MoneyTransfer moneyTransfer = new MoneyTransfer(source, cardNumber, money, System.currentTimeMillis());
         moneyTransferRepository.save(moneyTransfer);
         cardService.increaseAmountOfMoneyOnCard(cardNumber, money);
     }
 
+    @Override
     public Iterable<MoneyTransfer> findAllByOwnerAndAmountOfMoneyBetween(User user, float amountOfMoneyFrom, float amountOfMoneyTo) {
 
         Set<MoneyTransfer> result = new HashSet<>();
@@ -62,6 +67,7 @@ public class MoneyTransferService {
         return result;
     }
 
+    @Override
     public Iterable<MoneyTransfer> findAllByIncomingCardNumberIs(User user, long incomingCardNumber) {
         Iterable<Long> cardsNumberFilteredByOwnerId = cardService.findAllCardNumberByOwnerIdEquals(user.getId());
 
@@ -72,6 +78,7 @@ public class MoneyTransferService {
 
     }
 
+    @Override
     public Iterable<MoneyTransfer> findAllOutgoingTransferByTimeToCompleteTransferBetween(User user, long timeToCompleteTransferFrom, long timeToCompleteTransferTo) {
         Set<MoneyTransfer> result = new HashSet<>();
         Iterable<Long> cardsNumberFilteredByOwnerId = cardService.findAllCardNumberByOwnerIdEquals(user.getId());
@@ -86,6 +93,7 @@ public class MoneyTransferService {
         return result;
     }
 
+    @Override
     public float averageSpendingPerDayForPeriod(User user, long timeToCompleteTransferFrom, long timeToCompleteTransferTo) {
 
         Iterable<MoneyTransfer> moneyTransfers = findAllOutgoingTransferByTimeToCompleteTransferBetween(
@@ -104,7 +112,7 @@ public class MoneyTransferService {
         return sumPerPeriod / amountOfDay;
     }
 
-
+    @Override
     public Iterable<?> findSumOfTransfersByIncomingAccountsForPeriod(User user, long timeToCompleteTransferFrom, long timeToCompleteTransferTo) {
         Iterable<?> result;
         Iterable<Long> cardsNumberFilteredByOwnerId = cardService.findAllCardNumberByOwnerIdEquals(user.getId());
@@ -117,8 +125,8 @@ public class MoneyTransferService {
         return result;
     }
 
-
     //▪	Отношение поступлений к тратам
+    @Override
     public Float ratioIncomingToOutgoingTransfers(User user, long timeToCompleteTransferFrom, long timeToCompleteTransferTo) {
         Iterable<Long> cardsNumberFilteredByOwnerId = cardService.findAllCardNumberByOwnerIdEquals(user.getId());
 
@@ -132,7 +140,7 @@ public class MoneyTransferService {
                         timeToCompleteTransferTo);
     }
 
-
+    @Override
     public Float operationWithMaximumAmountForPeriod(User user, long timeToCompleteTransferFrom, long timeToCompleteTransferTo) {
         Iterable<Long> cardsNumberFilteredByOwnerId = cardService.findAllCardNumberByOwnerIdEquals(user.getId());
 

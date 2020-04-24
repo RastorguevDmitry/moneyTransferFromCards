@@ -1,7 +1,7 @@
 package com.rastorguev.moneyTransferFromCards.web.controller;
 
 import com.rastorguev.moneyTransferFromCards.web.model.entity.User;
-import com.rastorguev.moneyTransferFromCards.web.service.CardService;
+import com.rastorguev.moneyTransferFromCards.web.service.interfaces.ICardService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,10 +14,10 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 public class CardController {
 
     final
-    CardService cardService;
+    ICardService cardService;
 
 
-    public CardController(CardService cardService) {
+    public CardController(ICardService cardService) {
         this.cardService = cardService;
     }
 
