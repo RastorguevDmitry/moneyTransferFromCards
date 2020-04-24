@@ -1,12 +1,13 @@
 package com.rastorguev.moneyTransferFromCards.web.service;
 
+import com.rastorguev.moneyTransferFromCards.web.exceptions.NoSuchElement;
 import com.rastorguev.moneyTransferFromCards.web.model.entity.Card;
 import com.rastorguev.moneyTransferFromCards.web.repository.ICardRepository;
 import com.rastorguev.moneyTransferFromCards.web.service.interfaces.ICardService;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Service
 public class CardService implements ICardService {
@@ -25,7 +26,7 @@ public class CardService implements ICardService {
     @Override
     public Iterable<Long> findAllCardNumberByOwnerIdEquals(Long ownerId) {
 
-        List<Long> cardsNumberFilteredByOwnerId = new ArrayList<>();
+        Set<Long> cardsNumberFilteredByOwnerId = new HashSet<>();
         findAllCardByOwnerIdEquals(ownerId)
                 .forEach(
                         card -> cardsNumberFilteredByOwnerId.add(card.getNumber()
@@ -40,8 +41,14 @@ public class CardService implements ICardService {
     }
 
     @Override
-    public void deleteCard(long id) {
-        cardRepository.deleteById(id);
+    public void deleteCard(long currentUserId, long number) throws NoSuchElement {
+
+        Set<Long> allCardNumberBelongCurrentUser = (HashSet<Long>) findAllCardNumberByOwnerIdEquals(currentUserId);
+        if (allCardNumberBelongCurrentUser.contains(number)) {
+            cardRepository.deleteById(number);
+        } else {
+            throw new NoSuchElement("you don't have card with number " + number);
+        }
     }
 
     @Override

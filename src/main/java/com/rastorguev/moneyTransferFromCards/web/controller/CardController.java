@@ -1,5 +1,6 @@
 package com.rastorguev.moneyTransferFromCards.web.controller;
 
+import com.rastorguev.moneyTransferFromCards.web.exceptions.NoSuchElement;
 import com.rastorguev.moneyTransferFromCards.web.model.entity.User;
 import com.rastorguev.moneyTransferFromCards.web.service.interfaces.ICardService;
 import org.springframework.stereotype.Controller;
@@ -26,6 +27,7 @@ public class CardController {
         model.put("cards", cardService.findAllCardByOwnerIdEquals(user.getId()));
         model.put("name", user.getFirstName());
         model.put("lastname", user.getLastName());
+        model.put("errorMessage", model.get("errorMessage"));
         return "list-cards";
     }
 
@@ -37,8 +39,16 @@ public class CardController {
     }
 
     @RequestMapping(value = "/delete-card", method = RequestMethod.GET)
-    public String deleteCardByCardNumber(@RequestParam long number) {
-        cardService.deleteCard(number);
+    public String deleteCardByCardNumber(@RequestParam long number, ModelMap model) {
+        try {
+            cardService.
+                    deleteCard(
+                            ((User) model.get("currentUser")).getId(),
+                            number);
+        } catch (NoSuchElement noSuchElement) {
+            model.put("errorMessage", noSuchElement.getMessage());
+            noSuchElement.printStackTrace();
+        }
         return "redirect:/list-cards";
     }
 }

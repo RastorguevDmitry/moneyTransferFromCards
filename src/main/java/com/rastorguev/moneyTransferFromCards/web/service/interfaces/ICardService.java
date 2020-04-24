@@ -1,5 +1,6 @@
 package com.rastorguev.moneyTransferFromCards.web.service.interfaces;
 
+import com.rastorguev.moneyTransferFromCards.web.exceptions.NoSuchElement;
 import com.rastorguev.moneyTransferFromCards.web.model.entity.Card;
 
 public interface ICardService {
@@ -10,7 +11,7 @@ public interface ICardService {
 
     void addCard(long userId);
 
-    void deleteCard(long id);
+    void deleteCard(long currentUserId, long number) throws NoSuchElement;
 
     long findOwnerIdByCardNumber(long cardNumber);
 

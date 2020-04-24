@@ -33,6 +33,9 @@
 
 
 Welcome ${currentUser.lastName}!! Here you can manage your card
+<div>
+    <font color="red">${errorMessage}</font>
+</div>
 <div class="container">
     <table class="table table-striped">
         <caption>Your cards are</caption>
