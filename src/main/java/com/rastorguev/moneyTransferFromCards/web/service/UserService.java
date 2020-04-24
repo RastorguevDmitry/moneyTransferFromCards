@@ -2,8 +2,8 @@ package com.rastorguev.moneyTransferFromCards.web.service;
 
 import com.rastorguev.moneyTransferFromCards.web.model.entity.User;
 import com.rastorguev.moneyTransferFromCards.web.model.entity.UserPrivateData;
-import com.rastorguev.moneyTransferFromCards.web.repository.UserPrivateDataRepository;
-import com.rastorguev.moneyTransferFromCards.web.repository.UserRepository;
+import com.rastorguev.moneyTransferFromCards.web.repository.IUserPrivateDataRepository;
+import com.rastorguev.moneyTransferFromCards.web.repository.IUserRepository;
 import com.rastorguev.moneyTransferFromCards.web.service.interfaces.IUserService;
 import org.springframework.stereotype.Service;
 
@@ -11,10 +11,10 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserService implements IUserService {
 
-    final UserRepository userRepository;
-    final UserPrivateDataRepository userPrivateDataRepository;
+    final IUserRepository userRepository;
+    final IUserPrivateDataRepository userPrivateDataRepository;
 
-    public UserService(UserRepository userRepository, UserPrivateDataRepository userPrivateDataRepository) {
+    public UserService(IUserRepository userRepository, IUserPrivateDataRepository userPrivateDataRepository) {
         this.userRepository = userRepository;
         this.userPrivateDataRepository = userPrivateDataRepository;
     }

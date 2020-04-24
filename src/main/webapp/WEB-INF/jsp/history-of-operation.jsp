@@ -14,6 +14,20 @@
        href="/">Exit</a>
     <a type="button" class="btn btn-success"
        href="/list-cards">Back</a>
+
+    <a type="button" class="btn btn-success"
+       href="/history-of-operation-findAllByAmountOfMoneyBetween?amountOfMoneyFrom=20&amountOfMoneyTo=2000">findAllByAmountOfMoneyBetween?amountOfMoneyFrom=20&amountOfMoneyTo=2000</a>
+    <a type="button" class="btn btn-success"
+       href="/history-of-operation-findAllByIncomingCardNumberIs?incomingCardNumber=9">findAllByIncomingCardNumberIs?incomingCardNumber=9</a>
+    <a type="button" class="btn btn-success"
+       href="/history-of-operation-findAllOutgoingOperationByTimeToCompleteTransferLastTwoHours">findAllOutgoingOperationByTimeToCompleteTransferLastTwoHours</a>
+    <a type="button" class="btn btn-success"
+       href="/history-of-operation-averageSpendingPerDayForLast30Days">averageSpendingPerDayForLast30Days</a>
+    <a type="button" class="btn btn-success"
+       href="/history-of-operation-ratioIncomingToOutgoingTransfersForLast30Days">ratioIncomingToOutgoingTransfersForLast30Days</a>
+    <a type="button" class="btn btn-success"
+       href="/history-of-operation-operationWithMaximumAmountForLast30Days">operationWithMaximumAmountForLast30Days</a>
+
 </div>
 <div>
 

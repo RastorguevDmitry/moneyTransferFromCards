@@ -2,7 +2,7 @@ package com.rastorguev.moneyTransferFromCards.web.service;
 
 import com.rastorguev.moneyTransferFromCards.web.model.entity.MoneyTransfer;
 import com.rastorguev.moneyTransferFromCards.web.model.entity.User;
-import com.rastorguev.moneyTransferFromCards.web.repository.MoneyTransferRepository;
+import com.rastorguev.moneyTransferFromCards.web.repository.IMoneyTransferRepository;
 import com.rastorguev.moneyTransferFromCards.web.service.interfaces.ICardService;
 import com.rastorguev.moneyTransferFromCards.web.service.interfaces.IMoneyTransferService;
 import org.springframework.stereotype.Service;
@@ -19,9 +19,9 @@ public class MoneyTransferService implements IMoneyTransferService {
     ICardService cardService;
 
     final
-    MoneyTransferRepository moneyTransferRepository;
+    IMoneyTransferRepository moneyTransferRepository;
 
-    public MoneyTransferService(ICardService cardService, MoneyTransferRepository moneyTransferRepository) {
+    public MoneyTransferService(ICardService cardService, IMoneyTransferRepository moneyTransferRepository) {
         this.cardService = cardService;
         this.moneyTransferRepository = moneyTransferRepository;
     }
@@ -69,11 +69,10 @@ public class MoneyTransferService implements IMoneyTransferService {
 
     @Override
     public Iterable<MoneyTransfer> findAllByIncomingCardNumberIs(User user, long incomingCardNumber) {
-        Iterable<Long> cardsNumberFilteredByOwnerId = cardService.findAllCardNumberByOwnerIdEquals(user.getId());
 
         return moneyTransferRepository
                 .findAllByQueryOutgoingCardNumberInOrIncomingCardNumberInAndIncomingCardNumberIs(
-                        cardsNumberFilteredByOwnerId,
+                        cardService.findAllCardNumberByOwnerIdEquals(user.getId()),
                         incomingCardNumber);
 
     }
@@ -81,9 +80,9 @@ public class MoneyTransferService implements IMoneyTransferService {
     @Override
     public Iterable<MoneyTransfer> findAllOutgoingTransferByTimeToCompleteTransferBetween(User user, long timeToCompleteTransferFrom, long timeToCompleteTransferTo) {
         Set<MoneyTransfer> result = new HashSet<>();
-        Iterable<Long> cardsNumberFilteredByOwnerId = cardService.findAllCardNumberByOwnerIdEquals(user.getId());
 
-        cardsNumberFilteredByOwnerId.forEach(number ->
+        cardService.findAllCardNumberByOwnerIdEquals(user.getId())
+                .forEach(number ->
                 result.addAll((Collection<? extends MoneyTransfer>) moneyTransferRepository
                         .findAllByOutgoingCardNumberAndTimeToCompleteTransferBetween(
                                 number,
@@ -115,11 +114,9 @@ public class MoneyTransferService implements IMoneyTransferService {
     @Override
     public Iterable<?> findSumOfTransfersByIncomingAccountsForPeriod(User user, long timeToCompleteTransferFrom, long timeToCompleteTransferTo) {
         Iterable<?> result;
-        Iterable<Long> cardsNumberFilteredByOwnerId = cardService.findAllCardNumberByOwnerIdEquals(user.getId());
-
         result = moneyTransferRepository
                 .findSumOfTransfersByIncomingAccountsForPeriod(
-                        cardsNumberFilteredByOwnerId,
+                        cardService.findAllCardNumberByOwnerIdEquals(user.getId()),
                         timeToCompleteTransferFrom,
                         timeToCompleteTransferTo);
         return result;
@@ -142,10 +139,8 @@ public class MoneyTransferService implements IMoneyTransferService {
 
     @Override
     public Float operationWithMaximumAmountForPeriod(User user, long timeToCompleteTransferFrom, long timeToCompleteTransferTo) {
-        Iterable<Long> cardsNumberFilteredByOwnerId = cardService.findAllCardNumberByOwnerIdEquals(user.getId());
-
         return moneyTransferRepository.operationWithMaximumAmountForPeriod(
-                cardsNumberFilteredByOwnerId,
+                cardService.findAllCardNumberByOwnerIdEquals(user.getId()),
                 timeToCompleteTransferFrom,
                 timeToCompleteTransferTo);
     }

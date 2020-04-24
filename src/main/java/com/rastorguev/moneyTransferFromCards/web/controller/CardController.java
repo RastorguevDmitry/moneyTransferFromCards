@@ -16,7 +16,6 @@ public class CardController {
     final
     ICardService cardService;
 
-
     public CardController(ICardService cardService) {
         this.cardService = cardService;
     }
@@ -38,10 +37,8 @@ public class CardController {
     }
 
     @RequestMapping(value = "/delete-card", method = RequestMethod.GET)
-    public String deleteCardByID(@RequestParam long number) {
+    public String deleteCardByCardNumber(@RequestParam long number) {
         cardService.deleteCard(number);
         return "redirect:/list-cards";
     }
-
-
 }

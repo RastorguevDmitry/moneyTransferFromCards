@@ -7,6 +7,7 @@ import java.io.Serializable;
 @Entity
 public class UserPrivateData implements Serializable {
 
+    private static final long serialVersionUID = 1945050330541434336L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;

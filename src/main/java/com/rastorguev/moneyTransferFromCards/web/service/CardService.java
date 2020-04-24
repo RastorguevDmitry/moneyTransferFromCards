@@ -1,7 +1,7 @@
 package com.rastorguev.moneyTransferFromCards.web.service;
 
 import com.rastorguev.moneyTransferFromCards.web.model.entity.Card;
-import com.rastorguev.moneyTransferFromCards.web.repository.CardRepository;
+import com.rastorguev.moneyTransferFromCards.web.repository.ICardRepository;
 import com.rastorguev.moneyTransferFromCards.web.service.interfaces.ICardService;
 import org.springframework.stereotype.Service;
 
@@ -9,11 +9,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class CardService  implements ICardService {
+public class CardService implements ICardService {
 
-    private final CardRepository cardRepository;
+    private final ICardRepository cardRepository;
 
-    public CardService(CardRepository cardRepository) {
+    public CardService(ICardRepository cardRepository) {
         this.cardRepository = cardRepository;
     }
 
