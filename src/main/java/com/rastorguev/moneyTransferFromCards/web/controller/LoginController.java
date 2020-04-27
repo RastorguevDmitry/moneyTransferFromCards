@@ -1,8 +1,8 @@
 package com.rastorguev.moneyTransferFromCards.web.controller;
 
-import com.rastorguev.moneyTransferFromCards.web.model.entity.User;
-import com.rastorguev.moneyTransferFromCards.web.model.entity.UserPrivateData;
-import com.rastorguev.moneyTransferFromCards.web.service.interfaces.ILoginService;
+import com.rastorguev.moneyTransferFromCards.web.entity.User;
+import com.rastorguev.moneyTransferFromCards.web.entity.UserPrivateData;
+import com.rastorguev.moneyTransferFromCards.web.service.interfaces.IUserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,10 +15,10 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 public class LoginController {
 
     final
-    ILoginService loginService;
+    IUserService userService;
 
-    public LoginController(ILoginService loginService) {
-        this.loginService = loginService;
+    public LoginController(IUserService userService) {
+        this.userService = userService;
     }
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
@@ -28,12 +28,11 @@ public class LoginController {
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
     public String validateUserAndOpenListCard(ModelMap model, @RequestParam String login, @RequestParam String password) {
-        User user = loginService.findUserByLoginAndPassword(login, password);
+        User user = userService.findUserByLoginAndPassword(login, password);
         if (user == null) {
             model.put("errorMessage", "Invalid Credentials");
             return "login";
         }
-        model.put("currentUser", user);
         return "redirect:/list-cards";
     }
 
@@ -47,11 +46,11 @@ public class LoginController {
 
     @RequestMapping(value = "/sign-up", method = RequestMethod.POST)
     public String signUnPage(ModelMap model, User currentUser, UserPrivateData userPrivateData) {
-        if (loginService.isUserWithSuchLoginExist(userPrivateData.getLogin())) {
+        if (userService.isUserWithSuchLoginExist(userPrivateData.getLogin())) {
             model.put("errorMessage", "user with such login already exist");
             return "sign-up";
         } else {
-            currentUser = loginService.signUpNewUser(currentUser, userPrivateData);
+            currentUser = userService.createUser(currentUser, userPrivateData);
             model.put("currentUser", currentUser);
             return "redirect:/list-cards";
         }

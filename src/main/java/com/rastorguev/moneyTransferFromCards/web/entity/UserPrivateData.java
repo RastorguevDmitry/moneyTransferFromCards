@@ -1,4 +1,4 @@
-package com.rastorguev.moneyTransferFromCards.web.model.entity;
+package com.rastorguev.moneyTransferFromCards.web.entity;
 
 import javax.persistence.*;
 import java.io.Serializable;

@@ -1,9 +1,9 @@
 package com.rastorguev.moneyTransferFromCards.web.controller;
 
 
-import com.rastorguev.moneyTransferFromCards.web.model.entity.Card;
-import com.rastorguev.moneyTransferFromCards.web.model.entity.MoneyTransfer;
-import com.rastorguev.moneyTransferFromCards.web.model.entity.User;
+import com.rastorguev.moneyTransferFromCards.web.entity.Card;
+import com.rastorguev.moneyTransferFromCards.web.entity.MoneyTransfer;
+import com.rastorguev.moneyTransferFromCards.web.entity.User;
 import com.rastorguev.moneyTransferFromCards.web.service.interfaces.ICardService;
 import com.rastorguev.moneyTransferFromCards.web.service.interfaces.IMoneyTransferService;
 import com.rastorguev.moneyTransferFromCards.web.service.interfaces.IUserService;

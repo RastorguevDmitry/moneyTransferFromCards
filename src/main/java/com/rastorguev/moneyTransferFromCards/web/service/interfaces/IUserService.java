@@ -1,7 +1,7 @@
 package com.rastorguev.moneyTransferFromCards.web.service.interfaces;
 
-import com.rastorguev.moneyTransferFromCards.web.model.entity.User;
-import com.rastorguev.moneyTransferFromCards.web.model.entity.UserPrivateData;
+import com.rastorguev.moneyTransferFromCards.web.entity.User;
+import com.rastorguev.moneyTransferFromCards.web.entity.UserPrivateData;
 
 public interface IUserService {
 

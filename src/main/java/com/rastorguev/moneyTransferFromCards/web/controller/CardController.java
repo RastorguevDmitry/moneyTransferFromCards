@@ -1,7 +1,7 @@
 package com.rastorguev.moneyTransferFromCards.web.controller;
 
 import com.rastorguev.moneyTransferFromCards.web.exceptions.NoSuchElement;
-import com.rastorguev.moneyTransferFromCards.web.model.entity.User;
+import com.rastorguev.moneyTransferFromCards.web.entity.User;
 import com.rastorguev.moneyTransferFromCards.web.service.interfaces.ICardService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;

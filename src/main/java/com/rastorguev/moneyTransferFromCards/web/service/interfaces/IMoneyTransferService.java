@@ -1,7 +1,7 @@
 package com.rastorguev.moneyTransferFromCards.web.service.interfaces;
 
-import com.rastorguev.moneyTransferFromCards.web.model.entity.MoneyTransfer;
-import com.rastorguev.moneyTransferFromCards.web.model.entity.User;
+import com.rastorguev.moneyTransferFromCards.web.entity.MoneyTransfer;
+import com.rastorguev.moneyTransferFromCards.web.entity.User;
 
 public interface IMoneyTransferService {
 

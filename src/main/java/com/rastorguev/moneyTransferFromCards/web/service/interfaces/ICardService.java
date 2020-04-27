@@ -1,7 +1,7 @@
 package com.rastorguev.moneyTransferFromCards.web.service.interfaces;
 
 import com.rastorguev.moneyTransferFromCards.web.exceptions.NoSuchElement;
-import com.rastorguev.moneyTransferFromCards.web.model.entity.Card;
+import com.rastorguev.moneyTransferFromCards.web.entity.Card;
 
 public interface ICardService {
 

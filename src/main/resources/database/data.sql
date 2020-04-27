@@ -8,9 +8,9 @@ CREATE TABLE User (
 );
 
 INSERT INTO User (id, lastName, firstName, middleName) VALUES
-  (1, 'Dmitry', 'Rastorguev', 'Ivanovich'),
-  (2, 'Dmitry2', 'Rastorguev2', 'Ivanovich2'),
-  (3, 'Dmitry3', 'Rastorguev3', 'Ivanovich3');
+  (1, 'lastName', 'firstName', 'middleName'),
+  (2, 'lastName2', 'firstName2', 'middleName2'),
+  (3, 'lastName3', 'firstName3', 'middleName3');
 
 
 -- DROP TABLE IF EXISTS UserPrivateData;

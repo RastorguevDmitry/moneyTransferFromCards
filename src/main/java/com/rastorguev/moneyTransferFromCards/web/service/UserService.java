@@ -1,7 +1,7 @@
 package com.rastorguev.moneyTransferFromCards.web.service;
 
-import com.rastorguev.moneyTransferFromCards.web.model.entity.User;
-import com.rastorguev.moneyTransferFromCards.web.model.entity.UserPrivateData;
+import com.rastorguev.moneyTransferFromCards.web.entity.User;
+import com.rastorguev.moneyTransferFromCards.web.entity.UserPrivateData;
 import com.rastorguev.moneyTransferFromCards.web.repository.IUserPrivateDataRepository;
 import com.rastorguev.moneyTransferFromCards.web.repository.IUserRepository;
 import com.rastorguev.moneyTransferFromCards.web.service.interfaces.IUserService;
@@ -21,7 +21,11 @@ public class UserService implements IUserService {
 
     @Override
     public User findUserByLoginAndPassword(String login, String password) {
-        long userID = (userPrivateDataRepository.findByLoginAndPassword(login, password)).getOwnerId();
+        UserPrivateData userPrivateData = (userPrivateDataRepository.findByLoginAndPassword(login, password));
+        if (userPrivateData == null) {
+            return null;
+        }
+        long userID = userPrivateData.getOwnerId();
         return userRepository.findById(userID).get();
     }
 
@@ -42,5 +46,10 @@ public class UserService implements IUserService {
     public boolean isUserWithSuchLoginExist(String login) {
         return userPrivateDataRepository.existsByLogin(login);
     }
+
+
+
+
+
 
 }

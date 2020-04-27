@@ -1,7 +1,7 @@
 package com.rastorguev.moneyTransferFromCards.web.controller;
 
-import com.rastorguev.moneyTransferFromCards.web.model.entity.User;
-import com.rastorguev.moneyTransferFromCards.web.model.entity.UserPrivateData;
+import com.rastorguev.moneyTransferFromCards.web.entity.User;
+import com.rastorguev.moneyTransferFromCards.web.entity.UserPrivateData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 
