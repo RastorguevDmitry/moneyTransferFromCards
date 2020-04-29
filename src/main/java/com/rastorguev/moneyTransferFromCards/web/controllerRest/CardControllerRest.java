@@ -2,9 +2,11 @@ package com.rastorguev.moneyTransferFromCards.web.controllerRest;
 
 import com.rastorguev.moneyTransferFromCards.web.dto.CardDTO;
 import com.rastorguev.moneyTransferFromCards.web.dto.UserDTO;
+import com.rastorguev.moneyTransferFromCards.web.entity.Card;
 import com.rastorguev.moneyTransferFromCards.web.exceptions.NoSuchElement;
 import com.rastorguev.moneyTransferFromCards.web.service.interfaces.ICardService;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,24 +24,40 @@ public class CardControllerRest {
     }
 
 
-    @GetMapping
-    public List<CardDTO> getAllCards(UserDTO userDTO) {
-        return (List<CardDTO>) cardService.findAllCardByOwnerIdEquals(userDTO.getId());
+    @PostMapping
+    public ResponseEntity<List<CardDTO>> getAllCards(@RequestBody UserDTO userDTO) {
+
+
+        return new ResponseEntity<>((List<CardDTO>) cardService.findAllCardByOwnerIdEquals(userDTO.getId()), HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/balance/{cardNumber}")
+    public ResponseEntity<Float> showCardBalance(@PathVariable Long cardNumber, @RequestBody UserDTO userDTO) throws NoSuchElement {
+
+        if (cardService.findOwnerIdByCardNumber(cardNumber) != userDTO.getId()) {
+            throw new NoSuchElement("у вас нет такой карты " + cardNumber + cardService.findOwnerIdByCardNumber(cardNumber));
+        }
+
+
+        Card card = cardService.findCardByCardNumber(cardNumber);
+
+        return new ResponseEntity<>(card.getAmountOfMoneyOnCard(), HttpStatus.OK);
     }
 
 
-    @PutMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public CardDTO createNewCard(UserDTO userDTO) {
-        return cardService.createCard(userDTO.getId());
+    @PostMapping(value = "/create")
+    public ResponseEntity<CardDTO> createNewCard(@RequestBody UserDTO userDTO) {
+        return new ResponseEntity<>(cardService.createCard(userDTO.getId()), HttpStatus.CREATED);
     }
 
 
-    @DeleteMapping("/delete-card/{cardNumber}")
-    public void deleteOneCards(UserDTO user, @PathVariable Long cardNumber) throws NoSuchElement {
+    @PostMapping("/delete-card/{cardNumber}")
+    public ResponseEntity<Object> deleteOneCard(@RequestBody UserDTO userDTO, @PathVariable Long cardNumber) throws NoSuchElement {
         cardService.
                 deleteCard(
-                        user.getId(),
+                        userDTO.getId(),
                         cardNumber);
+
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

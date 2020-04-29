@@ -1,6 +1,7 @@
 package com.rastorguev.moneyTransferFromCards.web.dto;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 public class UserPrivateDataDTO implements Serializable {
 
@@ -30,4 +31,17 @@ public class UserPrivateDataDTO implements Serializable {
         this.password = password;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        UserPrivateDataDTO that = (UserPrivateDataDTO) o;
+        return login.equals(that.login) &&
+                password.equals(that.password);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(login, password);
+    }
 }

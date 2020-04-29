@@ -78,72 +78,7 @@ public class MoneyTransferControllerRest {
         return moneyTransferService.makeTransactionWithDTO(moneyTransferDTO);
     }
 
-//    @RequestMapping(value = "/transfer-card", method = RequestMethod.POST)
-//    public String openTransferMoneyFromCardPageWithConfirmation(MoneyTransfer moneyTransfer, Card card, User userOutgoingTransfer, BindingResult result) {
-//
-//        if (result.hasErrors()) {
-//            return "transfer-card";
-//        }
-//
-//        if (card.getAmountOfMoneyOnCard() < moneyTransfer.getAmountOfMoney()) {
-//            model.put("errorMessage", "not enough money on the card");
-//        } else if (!userOutgoingTransfer.getFirstName().equals("")) {
-//            moneyTransferService.makeTransaction(moneyTransfer);
-//            return "redirect:/list-cards";
-//        }
-//        long incomingCardOwner = 0;
-//        try {
-//            incomingCardOwner = cardService.findOwnerIdByCardNumber(moneyTransfer.getIncomingCardNumber());
-//        } catch (NoSuchElementException e) {
-//            model.put("errorMessage", "not such card");
-//            model.put("userOutgoingTransfer", new User());
-//            return "transfer-card";
-//        }
-//        userOutgoingTransfer = userService.findUserById(incomingCardOwner);
-//        model.put("userOutgoingTransfer", userOutgoingTransfer);
-//        return "transfer-card-confirm-step";
-//    }
-//
-//    @RequestMapping(value = "/transfer-card", method = RequestMethod.GET)
-//    public String openTransferMoneyFromCardPage(@RequestParam long number, ModelMap model) {
-//
-//        Card card = cardService.findCardByCardNumber(number);
-//
-//        MoneyTransfer moneyTransfer = new MoneyTransfer();
-//        moneyTransfer.setOutgoingCardNumber(card.getNumber());
-//        moneyTransfer.setAmountOfMoney(card.getAmountOfMoneyOnCard());
-//
-//        model.put("moneyTransfer", moneyTransfer);
-//        model.put("card", card);
-//        model.put("userOutgoingTransfer", new User());
-//        return "transfer-card";
-//    }
-//
-//    @RequestMapping(value = "/transfer-card", method = RequestMethod.POST)
-//    public String openTransferMoneyFromCardPageWithConfirmation(ModelMap model, MoneyTransfer moneyTransfer, Card card, User userOutgoingTransfer, BindingResult result) {
-//
-//        if (result.hasErrors()) {
-//            return "transfer-card";
-//        }
-//
-//        if (card.getAmountOfMoneyOnCard() < moneyTransfer.getAmountOfMoney()) {
-//            model.put("errorMessage", "not enough money on the card");
-//        } else if (!userOutgoingTransfer.getFirstName().equals("")) {
-//            moneyTransferService.makeTransaction(moneyTransfer);
-//            return "redirect:/list-cards";
-//        }
-//        long incomingCardOwner = 0;
-//        try {
-//            incomingCardOwner = cardService.findOwnerIdByCardNumber(moneyTransfer.getIncomingCardNumber());
-//        } catch (NoSuchElementException e) {
-//            model.put("errorMessage", "not such card");
-//            model.put("userOutgoingTransfer", new User());
-//            return "transfer-card";
-//        }
-//        userOutgoingTransfer = userService.findUserById(incomingCardOwner);
-//        model.put("userOutgoingTransfer", userOutgoingTransfer);
-//        return "transfer-card-confirm-step";
-//    }
+
 
 
 }

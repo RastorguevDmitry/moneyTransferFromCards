@@ -8,8 +8,6 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphabetic;
 
 
-
-
 public class SpringBootBootstrapLiveTest {
 
     private static final String API_ROOT
@@ -32,6 +30,25 @@ public class SpringBootBootstrapLiveTest {
         userPrivateData.setPassword(randomAlphabetic(10));
         return userPrivateData;
     }
+
+
+
+    private final String login = "Rastorguev";
+    private final String password = "dima";
+
+
+//    @Test
+//    public void addCard_shouldCreated201() {
+//        Long cardNumber = 1000100010003333L;
+//        ResponseEntity<CardDto> responseEntity = template.postForEntity("/api/card/add", cardNumber, CardDto.class);
+//        CardDto actual = responseEntity.getBody();
+//        CardDto expected = new CardDto();
+//        expected.setCardNumber(cardNumber);
+//        expected.setUsername(username);
+//        expected.setBalance(0.00);
+//        assertEquals(responseEntity.getStatusCode(), HttpStatus.CREATED);
+//        assertEquals(expected, actual);
+//    }
 
 
 }
