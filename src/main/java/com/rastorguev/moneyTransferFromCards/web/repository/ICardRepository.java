@@ -16,6 +16,6 @@ public interface ICardRepository extends CrudRepository<Card, Long> {
     // перевод денег с карту на карту
     @Modifying
     @Query(value = "UPDATE Card SET amountOfMoneyOnCard = ?2 WHERE number=?1 and amountOfMoneyOnCard=?3")
-    void compareAndSave(long cardNumber, float amountOfMoneyAfterTransaction, float amountOfMoneyBeforeTransaction);
+    int compareAndSave(long cardNumber, float amountOfMoneyAfterTransaction, float amountOfMoneyBeforeTransaction);
 
 }

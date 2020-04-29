@@ -3,6 +3,7 @@ package com.rastorguev.moneyTransferFromCards.web.service;
 import com.rastorguev.moneyTransferFromCards.web.dto.MoneyTransferDTO;
 import com.rastorguev.moneyTransferFromCards.web.entity.MoneyTransfer;
 import com.rastorguev.moneyTransferFromCards.web.entity.User;
+import com.rastorguev.moneyTransferFromCards.web.exceptions.DuringOperationExecutionException;
 import com.rastorguev.moneyTransferFromCards.web.repository.IMoneyTransferRepository;
 import com.rastorguev.moneyTransferFromCards.web.service.interfaces.ICardService;
 import com.rastorguev.moneyTransferFromCards.web.service.interfaces.IMoneyTransferService;
@@ -30,7 +31,7 @@ public class MoneyTransferService implements IMoneyTransferService {
 
     @Transactional
     @Override
-    public void makeTransaction(MoneyTransfer moneyTransfer) {
+    public void makeTransaction(MoneyTransfer moneyTransfer) throws DuringOperationExecutionException {
         cardService.makeTransaction(moneyTransfer.getOutgoingCardNumber(), moneyTransfer.getIncomingCardNumber(), moneyTransfer.getAmountOfMoney());
         if (moneyTransfer.getTimeToCompleteTransfer() == 0) {
             moneyTransfer.setTimeToCompleteTransfer(System.currentTimeMillis());
@@ -40,7 +41,7 @@ public class MoneyTransferService implements IMoneyTransferService {
 
     @Transactional
     @Override
-    public MoneyTransferDTO makeTransactionWithDTO(MoneyTransferDTO moneyTransferDTO) {
+    public MoneyTransferDTO makeTransactionWithDTO(MoneyTransferDTO moneyTransferDTO) throws DuringOperationExecutionException {
         cardService
                 .makeTransaction(
                         moneyTransferDTO.getOutgoingCardNumber(),

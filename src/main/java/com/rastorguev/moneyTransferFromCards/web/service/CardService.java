@@ -2,6 +2,7 @@ package com.rastorguev.moneyTransferFromCards.web.service;
 
 import com.rastorguev.moneyTransferFromCards.web.dto.CardDTO;
 import com.rastorguev.moneyTransferFromCards.web.entity.Card;
+import com.rastorguev.moneyTransferFromCards.web.exceptions.DuringOperationExecutionException;
 import com.rastorguev.moneyTransferFromCards.web.exceptions.NoSuchElement;
 import com.rastorguev.moneyTransferFromCards.web.repository.ICardRepository;
 import com.rastorguev.moneyTransferFromCards.web.service.interfaces.ICardService;
@@ -51,7 +52,7 @@ public class CardService implements ICardService {
 
     @Override
     public CardDTO createCard(long userId) {
-       return fromCard(cardRepository.save(new Card(userId)));
+        return fromCard(cardRepository.save(new Card(userId)));
     }
 
     @Override
@@ -80,18 +81,38 @@ public class CardService implements ICardService {
 
     @Transactional
     @Override
-    public void makeTransaction(long outgoingCardNumber, long incomingCardNumber, float amountOfMoney) {
+    public void makeTransaction(long outgoingCardNumber, long incomingCardNumber, float amountOfMoney) throws DuringOperationExecutionException {
         Card outgoingCard = findCardByCardNumber(outgoingCardNumber);
         Card incomingCard = findCardByCardNumber(incomingCardNumber);
 
         float outgoingCardAmountOfMoneyBeforeTransaction = outgoingCard.getAmountOfMoneyOnCard();
-        float incomingCardAmountOfMoneyBeforeTransaction  = incomingCard.getAmountOfMoneyOnCard();
+        float incomingCardAmountOfMoneyBeforeTransaction = incomingCard.getAmountOfMoneyOnCard();
 
-        outgoingCard.reduceAmountOfMoneyOnCard(amountOfMoney);
-        incomingCard.increaseAmountOfMoneyOnCard(amountOfMoney);
 
-        cardRepository.compareAndSave(outgoingCard.getNumber(), outgoingCard.getAmountOfMoneyOnCard(), outgoingCardAmountOfMoneyBeforeTransaction);
-        cardRepository.compareAndSave(incomingCard.getNumber() ,incomingCard.getAmountOfMoneyOnCard(), incomingCardAmountOfMoneyBeforeTransaction);
+        int outgoingCardRowUpdate = 0;
+        int incomingCardRowUpdate = 0;
+        for (int i = 0; i < 10; i++) {
+            if (outgoingCardRowUpdate == 0) {
+                outgoingCardRowUpdate = cardRepository
+                        .compareAndSave(
+                                outgoingCard.getNumber(),
+                                outgoingCardAmountOfMoneyBeforeTransaction - amountOfMoney,
+                                outgoingCardAmountOfMoneyBeforeTransaction);
+            }
+            if (incomingCardRowUpdate == 0) {
+                incomingCardRowUpdate = cardRepository
+                        .compareAndSave(
+                                incomingCard.getNumber(),
+                                incomingCardAmountOfMoneyBeforeTransaction + amountOfMoney,
+                                incomingCardAmountOfMoneyBeforeTransaction);
+            }
+
+            if (outgoingCardRowUpdate > 0 && incomingCardRowUpdate > 0) return;
+        }
+
+
+        throw new DuringOperationExecutionException("операция не выполнена");
+
     }
 
     @Override

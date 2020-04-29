@@ -3,11 +3,12 @@ package com.rastorguev.moneyTransferFromCards.web.service.interfaces;
 import com.rastorguev.moneyTransferFromCards.web.dto.MoneyTransferDTO;
 import com.rastorguev.moneyTransferFromCards.web.entity.MoneyTransfer;
 import com.rastorguev.moneyTransferFromCards.web.entity.User;
+import com.rastorguev.moneyTransferFromCards.web.exceptions.DuringOperationExecutionException;
 
 public interface IMoneyTransferService {
 
 
-    void makeTransaction(MoneyTransfer moneyTransfer);
+    void makeTransaction(MoneyTransfer moneyTransfer) throws DuringOperationExecutionException;
 
     void makeIncomingTransactionWithThirdPartySource(long cardNumber, float money, long source);
 
@@ -25,7 +26,7 @@ public interface IMoneyTransferService {
 
     Float operationWithMaximumAmountForPeriod(User user, long timeToCompleteTransferFrom, long timeToCompleteTransferTo);
 
-    MoneyTransferDTO makeTransactionWithDTO(MoneyTransferDTO moneyTransferDTO);
+    MoneyTransferDTO makeTransactionWithDTO(MoneyTransferDTO moneyTransferDTO) throws DuringOperationExecutionException;
 
     MoneyTransfer fromMoneyTransferDTO(MoneyTransferDTO moneyTransferDTO);
 

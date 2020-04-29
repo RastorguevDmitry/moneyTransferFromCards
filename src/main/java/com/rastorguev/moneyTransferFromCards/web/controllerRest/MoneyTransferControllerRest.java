@@ -3,6 +3,7 @@ package com.rastorguev.moneyTransferFromCards.web.controllerRest;
 import com.rastorguev.moneyTransferFromCards.web.dto.CardDTO;
 import com.rastorguev.moneyTransferFromCards.web.dto.MoneyTransferDTO;
 import com.rastorguev.moneyTransferFromCards.web.dto.UserDTO;
+import com.rastorguev.moneyTransferFromCards.web.exceptions.DuringOperationExecutionException;
 import com.rastorguev.moneyTransferFromCards.web.exceptions.NoSuchElement;
 import com.rastorguev.moneyTransferFromCards.web.exceptions.WrongValueException;
 import com.rastorguev.moneyTransferFromCards.web.service.interfaces.ICardService;
@@ -40,7 +41,7 @@ public class MoneyTransferControllerRest {
     @PutMapping("/transfer")
     @ResponseStatus(HttpStatus.OK)
     public MoneyTransferDTO transferRequest(UserDTO userDTO,
-                                            @RequestBody MoneyTransferDTO moneyTransferDTO) throws NoSuchElement, WrongValueException {
+                                            @RequestBody MoneyTransferDTO moneyTransferDTO) throws NoSuchElement, WrongValueException, DuringOperationExecutionException {
 
         CardDTO outgoingCard = cardService
                 .fromCard(

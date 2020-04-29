@@ -2,6 +2,7 @@ package com.rastorguev.moneyTransferFromCards.web.service.interfaces;
 
 import com.rastorguev.moneyTransferFromCards.web.dto.CardDTO;
 import com.rastorguev.moneyTransferFromCards.web.entity.Card;
+import com.rastorguev.moneyTransferFromCards.web.exceptions.DuringOperationExecutionException;
 import com.rastorguev.moneyTransferFromCards.web.exceptions.NoSuchElement;
 
 public interface ICardService {
@@ -20,7 +21,7 @@ public interface ICardService {
 
     Card findCardByCardNumber(long cardNumber);
 
-    void makeTransaction(long outgoingCardNumber, long incomingCardNumber, float amountOfMoney);
+    void makeTransaction(long outgoingCardNumber, long incomingCardNumber, float amountOfMoney) throws DuringOperationExecutionException;
 
     void increaseAmountOfMoneyOnCard(long cardNumber, float money);
 
