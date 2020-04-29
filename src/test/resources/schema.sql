@@ -40,7 +40,7 @@ INSERT INTO Card (number, amountOfMoneyOnCard, ownerId) VALUES
   ('7', '100', '1'),
   ('8', '200', '1'),
   ('9', '300', '1'),
-  ('10', '500', '2'),
+  ('10', '0', '2'),
   ('11', '0', '3');
 
 CREATE TABLE MoneyTransfer (

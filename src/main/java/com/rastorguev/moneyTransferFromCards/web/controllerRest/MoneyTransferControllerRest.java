@@ -10,10 +10,11 @@ import com.rastorguev.moneyTransferFromCards.web.service.interfaces.ICardService
 import com.rastorguev.moneyTransferFromCards.web.service.interfaces.IMoneyTransferService;
 import com.rastorguev.moneyTransferFromCards.web.service.interfaces.IUserService;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
-
-import static com.rastorguev.moneyTransferFromCards.web.constants.Constants.THIRD_PARTY_SOURS_FOU_TRANSACTION;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/rest/transfers")
@@ -32,16 +33,18 @@ public class MoneyTransferControllerRest {
         this.moneyTransferService = moneyTransferService;
     }
 
-    @PutMapping(value = "/transfer-card")
-    public String makeTransfer(UserDTO user, @PathVariable Long cardNumber) {
-        moneyTransferService.makeIncomingTransactionWithThirdPartySource(cardNumber, 500, THIRD_PARTY_SOURS_FOU_TRANSACTION);
-        return "redirect:/list-cards";
-    }
 
-    @PutMapping("/transfer")
-    @ResponseStatus(HttpStatus.OK)
-    public MoneyTransferDTO transferRequest(UserDTO userDTO,
-                                            @RequestBody MoneyTransferDTO moneyTransferDTO) throws NoSuchElement, WrongValueException, DuringOperationExecutionException {
+    @PostMapping("/transfer")
+    public ResponseEntity<MoneyTransferDTO> transferRequest(@RequestBody MoneyTransferDTO moneyTransferDTO) throws NoSuchElement, WrongValueException, DuringOperationExecutionException {
+
+        //TODO авторизация
+        UserDTO userDTO = userService.fromUser(
+                userService.findUserById(
+                        cardService.findOwnerIdByCardNumber(
+                                moneyTransferDTO.getOutgoingCardNumber()
+                        )
+                )
+        );
 
         CardDTO outgoingCard = cardService
                 .fromCard(
@@ -72,13 +75,7 @@ public class MoneyTransferControllerRest {
                                         incomingCardOwnerID)
                 );
 
-
-
-
-        return moneyTransferService.makeTransactionWithDTO(moneyTransferDTO);
+        return new ResponseEntity<>(moneyTransferService.makeTransactionWithDTO(moneyTransferDTO), HttpStatus.OK);
     }
-
-
-
 
 }

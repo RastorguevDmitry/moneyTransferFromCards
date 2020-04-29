@@ -12,7 +12,9 @@ public class MoneyTransferDTO implements Serializable {
 
     private boolean confirmed;
 
+    public MoneyTransferDTO() {
 
+    }
 
     public MoneyTransferDTO(long outgoingCardNumber, long incomingCardNumber, float amountOfMoney, long currentTimeMillis) {
         this.outgoingCardNumber = outgoingCardNumber;
