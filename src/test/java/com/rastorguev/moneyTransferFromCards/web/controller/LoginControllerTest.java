@@ -46,12 +46,13 @@ class LoginControllerTest {
 
 
 
-    @Test
-    void testSignIn() {
-//        ResponseEntity<JsonNode> responseEntity = restTemplate.postForEntity(getContextPath() + "/",
-//                new CredentialsDTO(registeredUser.login, registeredUser.password), JsonNode.class);
-//        Assertions.assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-    }
+//    @Test
+//    void testSignIn() {
+////        ResponseEntity<JsonNode> responseEntity = restTemplate.postForEntity(getContextPath() + "/",
+////                new Card(registeredUser.login, registeredUser.password), JsonNode.class);
+////        Assertions.assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+//    }
+
 
     @Test
     void showLoginPage() {

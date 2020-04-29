@@ -33,6 +33,7 @@ public class LoginController {
             model.put("errorMessage", "Invalid Credentials");
             return "login";
         }
+        model.put("currentUser", user);
         return "redirect:/list-cards";
     }
 

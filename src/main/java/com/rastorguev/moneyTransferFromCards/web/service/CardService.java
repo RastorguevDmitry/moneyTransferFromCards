@@ -1,12 +1,15 @@
 package com.rastorguev.moneyTransferFromCards.web.service;
 
-import com.rastorguev.moneyTransferFromCards.web.exceptions.NoSuchElement;
+import com.rastorguev.moneyTransferFromCards.web.dto.CardDTO;
 import com.rastorguev.moneyTransferFromCards.web.entity.Card;
+import com.rastorguev.moneyTransferFromCards.web.exceptions.NoSuchElement;
 import com.rastorguev.moneyTransferFromCards.web.repository.ICardRepository;
 import com.rastorguev.moneyTransferFromCards.web.service.interfaces.ICardService;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Service
@@ -19,8 +22,13 @@ public class CardService implements ICardService {
     }
 
     @Override
-    public Iterable<Card> findAllCardByOwnerIdEquals(Long ownerId) {
-        return cardRepository.findAllCardByOwnerIdEquals(ownerId);
+    public Iterable<CardDTO> findAllCardByOwnerIdEquals(Long ownerId) {
+
+        List<CardDTO> cardDTOs = new ArrayList<>();
+        cardRepository
+                .findAllCardByOwnerIdEquals(ownerId)
+                .forEach(card -> cardDTOs.add(fromCard(card)));
+        return cardDTOs;
     }
 
     @Override
@@ -41,10 +49,13 @@ public class CardService implements ICardService {
     }
 
     @Override
-    public void deleteCard(long currentUserId, long number) throws NoSuchElement {
+    public CardDTO createCard(long userId) {
+       return fromCard(cardRepository.save(new Card(userId)));
+    }
 
-        Set<Long> allCardNumberBelongCurrentUser = (HashSet<Long>) findAllCardNumberByOwnerIdEquals(currentUserId);
-        if (allCardNumberBelongCurrentUser.contains(number)) {
+    @Override
+    public void deleteCard(long currentUserId, long number) throws NoSuchElement {
+        if (cardRepository.existsByNumberAndOwnerId(number, currentUserId)) {
             cardRepository.deleteById(number);
         } else {
             throw new NoSuchElement("you don't have card with number " + number);
@@ -79,4 +90,11 @@ public class CardService implements ICardService {
         card.increaseAmountOfMoneyOnCard(money);
         cardRepository.save(card);
     }
+
+    public CardDTO fromCard(Card card) {
+        CardDTO cardDTO = new CardDTO(card.getNumber(), card.getAmountOfMoneyOnCard(), card.getOwnerId());
+        return cardDTO;
+    }
+
+
 }

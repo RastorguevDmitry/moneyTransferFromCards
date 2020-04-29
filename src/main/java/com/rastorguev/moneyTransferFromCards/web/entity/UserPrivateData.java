@@ -22,10 +22,13 @@ public class UserPrivateData implements Serializable {
     public UserPrivateData() {
     }
 
-    public UserPrivateData(String login, String password) {
+    public UserPrivateData(String login, String password, long ownerId) {
         this.login = login;
         this.password = password;
+        this.ownerId = ownerId;
     }
+
+
 
     public long getId() {
         return id;

@@ -1,6 +1,5 @@
 package com.rastorguev.moneyTransferFromCards.web.controller;
 
-
 import com.rastorguev.moneyTransferFromCards.web.entity.Card;
 import com.rastorguev.moneyTransferFromCards.web.entity.MoneyTransfer;
 import com.rastorguev.moneyTransferFromCards.web.entity.User;
@@ -159,7 +158,7 @@ public class MoneyTransferController {
                 System.currentTimeMillis() - 30L * 24 * 60 * 60 * 1000,
                 System.currentTimeMillis()));
 
-        //не выводит
+        //TODO нет формы для вывода, не выводит информацию
         return "history-of-operation";
     }
 

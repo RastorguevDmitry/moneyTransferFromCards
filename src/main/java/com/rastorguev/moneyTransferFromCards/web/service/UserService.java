@@ -1,5 +1,7 @@
 package com.rastorguev.moneyTransferFromCards.web.service;
 
+import com.rastorguev.moneyTransferFromCards.web.dto.UserDTO;
+import com.rastorguev.moneyTransferFromCards.web.dto.UserRegisterDTO;
 import com.rastorguev.moneyTransferFromCards.web.entity.User;
 import com.rastorguev.moneyTransferFromCards.web.entity.UserPrivateData;
 import com.rastorguev.moneyTransferFromCards.web.repository.IUserPrivateDataRepository;
@@ -42,6 +44,7 @@ public class UserService implements IUserService {
         return newUser;
     }
 
+
     @Override
     public boolean isUserWithSuchLoginExist(String login) {
         return userPrivateDataRepository.existsByLogin(login);
@@ -49,7 +52,21 @@ public class UserService implements IUserService {
 
 
 
+    @Override
+    public User createUserFromUserRegisterDTO(UserRegisterDTO userRegisterDTO) {
+        User newUser = userRepository.save(new User(userRegisterDTO.getLastName(), userRegisterDTO.getFirstName(), userRegisterDTO.getMiddleName()));
+        UserPrivateData userPrivateData = userPrivateDataRepository
+                .save(
+                new UserPrivateData(
+                        userRegisterDTO.getLogin(),
+                        userRegisterDTO.getPassword(),
+                        newUser.getId()));
+        return newUser;
+    }
 
-
+    public  UserDTO fromUser(User user) {
+        UserDTO userDTO = new UserDTO(user.getId(), user.getLastName(), user.getFirstName(), user.getMiddleName());
+        return userDTO;
+    }
 
 }

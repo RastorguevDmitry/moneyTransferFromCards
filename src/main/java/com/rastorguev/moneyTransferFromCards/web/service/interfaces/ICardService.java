@@ -1,15 +1,18 @@
 package com.rastorguev.moneyTransferFromCards.web.service.interfaces;
 
-import com.rastorguev.moneyTransferFromCards.web.exceptions.NoSuchElement;
+import com.rastorguev.moneyTransferFromCards.web.dto.CardDTO;
 import com.rastorguev.moneyTransferFromCards.web.entity.Card;
+import com.rastorguev.moneyTransferFromCards.web.exceptions.NoSuchElement;
 
 public interface ICardService {
 
-    Iterable<Card> findAllCardByOwnerIdEquals(Long ownerId);
+    Iterable<CardDTO> findAllCardByOwnerIdEquals(Long ownerId);
 
     Iterable<Long> findAllCardNumberByOwnerIdEquals(Long ownerId);
 
     void addCard(long userId);
+
+    CardDTO createCard(long userId);
 
     void deleteCard(long currentUserId, long number) throws NoSuchElement;
 
