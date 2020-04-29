@@ -6,6 +6,7 @@ import com.rastorguev.moneyTransferFromCards.web.exceptions.NoSuchElement;
 import com.rastorguev.moneyTransferFromCards.web.repository.ICardRepository;
 import com.rastorguev.moneyTransferFromCards.web.service.interfaces.ICardService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -63,8 +64,13 @@ public class CardService implements ICardService {
     }
 
     @Override
-    public long findOwnerIdByCardNumber(long cardNumber) {
-        return cardRepository.findById(cardNumber).get().getOwnerId();
+    public long findOwnerIdByCardNumber(long cardNumber) throws NoSuchElement {
+        Card card = cardRepository.findById(cardNumber).get();
+        if (card != null) {
+            return card.getOwnerId();
+        } else {
+            throw new NoSuchElement("такой карты не существует");
+        }
     }
 
     @Override
@@ -72,16 +78,20 @@ public class CardService implements ICardService {
         return cardRepository.findById(cardNumber).get();
     }
 
+    @Transactional
     @Override
     public void makeTransaction(long outgoingCardNumber, long incomingCardNumber, float amountOfMoney) {
         Card outgoingCard = findCardByCardNumber(outgoingCardNumber);
         Card incomingCard = findCardByCardNumber(incomingCardNumber);
 
+        float outgoingCardAmountOfMoneyBeforeTransaction = outgoingCard.getAmountOfMoneyOnCard();
+        float incomingCardAmountOfMoneyBeforeTransaction  = incomingCard.getAmountOfMoneyOnCard();
+
         outgoingCard.reduceAmountOfMoneyOnCard(amountOfMoney);
         incomingCard.increaseAmountOfMoneyOnCard(amountOfMoney);
 
-        cardRepository.save(outgoingCard);
-        cardRepository.save(incomingCard);
+        cardRepository.compareAndSave(outgoingCard.getNumber(), outgoingCard.getAmountOfMoneyOnCard(), outgoingCardAmountOfMoneyBeforeTransaction);
+        cardRepository.compareAndSave(incomingCard.getNumber() ,incomingCard.getAmountOfMoneyOnCard(), incomingCardAmountOfMoneyBeforeTransaction);
     }
 
     @Override
@@ -91,6 +101,7 @@ public class CardService implements ICardService {
         cardRepository.save(card);
     }
 
+    @Override
     public CardDTO fromCard(Card card) {
         CardDTO cardDTO = new CardDTO(card.getNumber(), card.getAmountOfMoneyOnCard(), card.getOwnerId());
         return cardDTO;

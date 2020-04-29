@@ -1,35 +1,27 @@
-package com.rastorguev.moneyTransferFromCards.web.entity;
+package com.rastorguev.moneyTransferFromCards.web.dto;
 
-import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
 
-@Entity
-public class MoneyTransfer implements Serializable {
-    private static final long serialVersionUID = -677777501781283703L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class MoneyTransferDTO implements Serializable {
     private long moneyTransferID;
-    @Column
     private long outgoingCardNumber;
-    @Column
     private long incomingCardNumber;
-    @Column
     private float amountOfMoney;
-    @Column
     private long timeToCompleteTransfer;
 
-    public MoneyTransfer() {
-    }
+    private boolean confirmed;
 
-    public MoneyTransfer(long outgoingCardNumber, long incomingCardNumber, float amountOfMoney, long currentTimeMillis) {
+
+
+    public MoneyTransferDTO(long outgoingCardNumber, long incomingCardNumber, float amountOfMoney, long currentTimeMillis) {
         this.outgoingCardNumber = outgoingCardNumber;
         this.incomingCardNumber = incomingCardNumber;
         this.amountOfMoney = amountOfMoney;
         this.timeToCompleteTransfer = currentTimeMillis;
     }
 
-    public MoneyTransfer(long outgoingCardNumber, long incomingCardNumber, float amountOfMoney) {
+    public MoneyTransferDTO(long outgoingCardNumber, long incomingCardNumber, float amountOfMoney) {
         this.outgoingCardNumber = outgoingCardNumber;
         this.incomingCardNumber = incomingCardNumber;
         this.amountOfMoney = amountOfMoney;
@@ -67,20 +59,29 @@ public class MoneyTransfer implements Serializable {
         this.timeToCompleteTransfer = timeToCompleteTransfer;
     }
 
+    public boolean isConfirmed() {
+        return confirmed;
+    }
+
+    public void setConfirmed(boolean confirmed) {
+        this.confirmed = confirmed;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        MoneyTransfer that = (MoneyTransfer) o;
+        MoneyTransferDTO that = (MoneyTransferDTO) o;
         return moneyTransferID == that.moneyTransferID &&
                 outgoingCardNumber == that.outgoingCardNumber &&
                 incomingCardNumber == that.incomingCardNumber &&
                 Float.compare(that.amountOfMoney, amountOfMoney) == 0 &&
-                timeToCompleteTransfer == that.timeToCompleteTransfer;
+                timeToCompleteTransfer == that.timeToCompleteTransfer &&
+                confirmed == that.confirmed;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(moneyTransferID, outgoingCardNumber, incomingCardNumber, amountOfMoney, timeToCompleteTransfer);
+        return Objects.hash(moneyTransferID, outgoingCardNumber, incomingCardNumber, amountOfMoney, timeToCompleteTransfer, confirmed);
     }
 }

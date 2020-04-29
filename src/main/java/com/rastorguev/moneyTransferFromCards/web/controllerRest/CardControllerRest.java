@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
-@RequestMapping("/rest")
+@RequestMapping("/rest/cards")
 public class CardControllerRest {
 
     final
@@ -22,7 +22,7 @@ public class CardControllerRest {
     }
 
 
-    @GetMapping(value = "/list-cards")
+    @GetMapping
     public List<CardDTO> getAllCards(UserDTO userDTO) {
         return (List<CardDTO>) cardService.findAllCardByOwnerIdEquals(userDTO.getId());
     }

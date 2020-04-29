@@ -5,7 +5,7 @@ import com.rastorguev.moneyTransferFromCards.web.dto.UserPrivateDataDTO;
 import com.rastorguev.moneyTransferFromCards.web.dto.UserRegisterDTO;
 import com.rastorguev.moneyTransferFromCards.web.entity.User;
 import com.rastorguev.moneyTransferFromCards.web.exceptions.NoSuchElement;
-import com.rastorguev.moneyTransferFromCards.web.exceptions.suchElementAlreadyExists;
+import com.rastorguev.moneyTransferFromCards.web.exceptions.SuchElementAlreadyExists;
 import com.rastorguev.moneyTransferFromCards.web.service.interfaces.IUserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -41,11 +41,11 @@ public class LoginControllerRest {
 
     @PostMapping(value = "/sign-up")
     @ResponseStatus(HttpStatus.CREATED)
-    public UserDTO signUpUser(@RequestBody UserRegisterDTO userRegisterDTO) throws suchElementAlreadyExists {
+    public UserDTO signUpUser(@RequestBody UserRegisterDTO userRegisterDTO) throws SuchElementAlreadyExists {
         if (userService
                 .isUserWithSuchLoginExist(
                         userRegisterDTO.getLogin())) {
-            throw new suchElementAlreadyExists("user with such login AlreadyExists");
+            throw new SuchElementAlreadyExists("user with such login AlreadyExists");
         } else {
             return userService
                     .fromUser(

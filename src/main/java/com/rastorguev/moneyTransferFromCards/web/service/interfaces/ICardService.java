@@ -16,12 +16,14 @@ public interface ICardService {
 
     void deleteCard(long currentUserId, long number) throws NoSuchElement;
 
-    long findOwnerIdByCardNumber(long cardNumber);
+    long findOwnerIdByCardNumber(long cardNumber) throws NoSuchElement;
 
     Card findCardByCardNumber(long cardNumber);
 
     void makeTransaction(long outgoingCardNumber, long incomingCardNumber, float amountOfMoney);
 
     void increaseAmountOfMoneyOnCard(long cardNumber, float money);
+
+    CardDTO fromCard(Card card);
 }
 

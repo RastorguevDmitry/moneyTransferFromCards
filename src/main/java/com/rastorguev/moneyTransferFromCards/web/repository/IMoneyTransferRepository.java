@@ -10,6 +10,9 @@ import java.util.List;
 @Repository
 public interface IMoneyTransferRepository extends CrudRepository<MoneyTransfer, Long> {
 
+
+
+
     Iterable<MoneyTransfer> findAllByIncomingCardNumberAndAmountOfMoneyBetween(
             long cardNumber, float amountOfMoneyFrom, float amountOfMoneyTo);
 

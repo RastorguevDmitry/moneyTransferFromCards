@@ -1,11 +1,13 @@
 package com.rastorguev.moneyTransferFromCards.web.service;
 
+import com.rastorguev.moneyTransferFromCards.web.dto.MoneyTransferDTO;
 import com.rastorguev.moneyTransferFromCards.web.entity.MoneyTransfer;
 import com.rastorguev.moneyTransferFromCards.web.entity.User;
 import com.rastorguev.moneyTransferFromCards.web.repository.IMoneyTransferRepository;
 import com.rastorguev.moneyTransferFromCards.web.service.interfaces.ICardService;
 import com.rastorguev.moneyTransferFromCards.web.service.interfaces.IMoneyTransferService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -26,6 +28,7 @@ public class MoneyTransferService implements IMoneyTransferService {
         this.moneyTransferRepository = moneyTransferRepository;
     }
 
+    @Transactional
     @Override
     public void makeTransaction(MoneyTransfer moneyTransfer) {
         cardService.makeTransaction(moneyTransfer.getOutgoingCardNumber(), moneyTransfer.getIncomingCardNumber(), moneyTransfer.getAmountOfMoney());
@@ -35,6 +38,22 @@ public class MoneyTransferService implements IMoneyTransferService {
         moneyTransferRepository.save(moneyTransfer);
     }
 
+    @Transactional
+    @Override
+    public MoneyTransferDTO makeTransactionWithDTO(MoneyTransferDTO moneyTransferDTO) {
+        cardService
+                .makeTransaction(
+                        moneyTransferDTO.getOutgoingCardNumber(),
+                        moneyTransferDTO.getIncomingCardNumber(),
+                        moneyTransferDTO.getAmountOfMoney()
+                );
+        if (moneyTransferDTO.getTimeToCompleteTransfer() == 0) {
+            moneyTransferDTO.setTimeToCompleteTransfer(System.currentTimeMillis());
+        }
+        return fromMoneyTransfer(moneyTransferRepository.save(fromMoneyTransferDTO(moneyTransferDTO)));
+    }
+
+    @Transactional
     @Override
     public void makeIncomingTransactionWithThirdPartySource(long cardNumber, float money, long source) {
         MoneyTransfer moneyTransfer = new MoneyTransfer(source, cardNumber, money, System.currentTimeMillis());
@@ -83,11 +102,11 @@ public class MoneyTransferService implements IMoneyTransferService {
 
         cardService.findAllCardNumberByOwnerIdEquals(user.getId())
                 .forEach(number ->
-                result.addAll((Collection<? extends MoneyTransfer>) moneyTransferRepository
-                        .findAllByOutgoingCardNumberAndTimeToCompleteTransferBetween(
-                                number,
-                                timeToCompleteTransferFrom,
-                                timeToCompleteTransferTo)));
+                        result.addAll((Collection<? extends MoneyTransfer>) moneyTransferRepository
+                                .findAllByOutgoingCardNumberAndTimeToCompleteTransferBetween(
+                                        number,
+                                        timeToCompleteTransferFrom,
+                                        timeToCompleteTransferTo)));
 
         return result;
     }
@@ -145,4 +164,13 @@ public class MoneyTransferService implements IMoneyTransferService {
                 timeToCompleteTransferTo);
     }
 
+    @Override
+    public MoneyTransfer fromMoneyTransferDTO(MoneyTransferDTO moneyTransferDTO) {
+        return new MoneyTransfer(moneyTransferDTO.getOutgoingCardNumber(), moneyTransferDTO.getIncomingCardNumber(), moneyTransferDTO.getAmountOfMoney());
+    }
+
+    @Override
+    public MoneyTransferDTO fromMoneyTransfer(MoneyTransfer moneyTransfer) {
+        return new MoneyTransferDTO(moneyTransfer.getOutgoingCardNumber(), moneyTransfer.getIncomingCardNumber(), moneyTransfer.getAmountOfMoney());
+    }
 }

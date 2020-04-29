@@ -3,6 +3,7 @@ package com.rastorguev.moneyTransferFromCards.web.controller;
 import com.rastorguev.moneyTransferFromCards.web.entity.Card;
 import com.rastorguev.moneyTransferFromCards.web.entity.MoneyTransfer;
 import com.rastorguev.moneyTransferFromCards.web.entity.User;
+import com.rastorguev.moneyTransferFromCards.web.exceptions.NoSuchElement;
 import com.rastorguev.moneyTransferFromCards.web.service.interfaces.ICardService;
 import com.rastorguev.moneyTransferFromCards.web.service.interfaces.IMoneyTransferService;
 import com.rastorguev.moneyTransferFromCards.web.service.interfaces.IUserService;
@@ -58,7 +59,7 @@ public class MoneyTransferController {
     }
 
     @RequestMapping(value = "/transfer-card", method = RequestMethod.POST)
-    public String openTransferMoneyFromCardPageWithConfirmation(ModelMap model, MoneyTransfer moneyTransfer, Card card, User userOutgoingTransfer, BindingResult result) {
+    public String openTransferMoneyFromCardPageWithConfirmation(ModelMap model, MoneyTransfer moneyTransfer, Card card, User userOutgoingTransfer, BindingResult result) throws NoSuchElement {
 
         if (result.hasErrors()) {
             return "transfer-card";
