@@ -85,14 +85,15 @@ public class CardService implements ICardService {
         Card outgoingCard = findCardByCardNumber(outgoingCardNumber);
         Card incomingCard = findCardByCardNumber(incomingCardNumber);
 
-        float outgoingCardAmountOfMoneyBeforeTransaction = outgoingCard.getAmountOfMoneyOnCard();
-        float incomingCardAmountOfMoneyBeforeTransaction = incomingCard.getAmountOfMoneyOnCard();
-
+        float outgoingCardAmountOfMoneyBeforeTransaction;
+        float incomingCardAmountOfMoneyBeforeTransaction;
 
         int outgoingCardRowUpdate = 0;
         int incomingCardRowUpdate = 0;
         for (int i = 0; i < 10; i++) {
+
             if (outgoingCardRowUpdate == 0) {
+                outgoingCardAmountOfMoneyBeforeTransaction = outgoingCard.getAmountOfMoneyOnCard();
                 outgoingCardRowUpdate = cardRepository
                         .compareAndSave(
                                 outgoingCard.getNumber(),
@@ -100,6 +101,7 @@ public class CardService implements ICardService {
                                 outgoingCardAmountOfMoneyBeforeTransaction);
             }
             if (incomingCardRowUpdate == 0) {
+                incomingCardAmountOfMoneyBeforeTransaction = incomingCard.getAmountOfMoneyOnCard();
                 incomingCardRowUpdate = cardRepository
                         .compareAndSave(
                                 incomingCard.getNumber(),

@@ -2,6 +2,8 @@ package com.rastorguev.moneyTransferFromCards.web.controllerRest;
 
 import com.rastorguev.moneyTransferFromCards.web.Constants;
 import com.rastorguev.moneyTransferFromCards.web.dto.CardDTO;
+import com.rastorguev.moneyTransferFromCards.web.entity.User;
+import com.rastorguev.moneyTransferFromCards.web.entity.UserPrivateData;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.runner.RunWith;
@@ -15,6 +17,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.List;
 
+import static org.apache.commons.lang3.RandomStringUtils.randomAlphabetic;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ActiveProfiles("test")
@@ -26,6 +29,20 @@ class CardControllerRestTest {
     @Autowired
     private TestRestTemplate template;
 
+    private User createRandomUser() {
+        User user = new User();
+        user.setFirstName(randomAlphabetic(10));
+        user.setLastName(randomAlphabetic(10));
+        user.setMiddleName(randomAlphabetic(10));
+        return user;
+    }
+
+    private UserPrivateData createRandomUserPrivateData() {
+        UserPrivateData userPrivateData = new UserPrivateData();
+        userPrivateData.setLogin(randomAlphabetic(10));
+        userPrivateData.setPassword(randomAlphabetic(10));
+        return userPrivateData;
+    }
 
 
     @Test

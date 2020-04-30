@@ -20,6 +20,6 @@ public class Constants {
     public static UserPrivateDataDTO userPrivateDataDTONewUser = new UserPrivateDataDTO("Rastorguev4", "dima4");
     public static UserRegisterDTO userRegisterDTO = new UserRegisterDTO("Rastorguev4", "dima4", "firstName", "lastName", "middleName");
     public static UserDTO userDTONewUser = new UserDTO( 4,"lastName", "firstName", "middleName");
-    public static MoneyTransferDTO moneyTransferDTO = new MoneyTransferDTO(7, 10, 50);
+    public static MoneyTransferDTO moneyTransferDTO = new MoneyTransferDTO(7, 10, 2);
 
 }
