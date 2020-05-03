@@ -8,7 +8,10 @@ import com.rastorguev.moneyTransferFromCards.web.service.interfaces.ICardService
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
 
@@ -27,20 +30,18 @@ public class CardControllerRest {
     @PostMapping
     public ResponseEntity<List<CardDTO>> getAllCards(@RequestBody UserDTO userDTO) {
 
-
         return new ResponseEntity<>((List<CardDTO>) cardService.findAllCardByOwnerIdEquals(userDTO.getId()), HttpStatus.OK);
     }
 
     @PostMapping(value = "/balance/{cardNumber}")
-    public ResponseEntity<Float> showCardBalance(@PathVariable Long cardNumber, @RequestBody UserDTO userDTO) throws NoSuchElement {
+    public ResponseEntity<Float> showCardBalance(
+                                                  @PathVariable Long cardNumber,
+                                                   @RequestBody UserDTO userDTO) throws NoSuchElement {
 
         if (cardService.findOwnerIdByCardNumber(cardNumber) != userDTO.getId()) {
             throw new NoSuchElement("у вас нет такой карты " + cardNumber + cardService.findOwnerIdByCardNumber(cardNumber));
         }
-
-
         Card card = cardService.findCardByCardNumber(cardNumber);
-
         return new ResponseEntity<>(card.getAmountOfMoneyOnCard(), HttpStatus.OK);
     }
 
@@ -52,12 +53,13 @@ public class CardControllerRest {
 
 
     @PostMapping("/delete-card/{cardNumber}")
-    public ResponseEntity<Object> deleteOneCard(@RequestBody UserDTO userDTO, @PathVariable Long cardNumber) throws NoSuchElement {
+    public ResponseEntity<Object> deleteOneCard(
+                                            @RequestBody UserDTO userDTO,
+                                            @PathVariable Long cardNumber) throws NoSuchElement {
         cardService.
                 deleteCard(
                         userDTO.getId(),
                         cardNumber);
-
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

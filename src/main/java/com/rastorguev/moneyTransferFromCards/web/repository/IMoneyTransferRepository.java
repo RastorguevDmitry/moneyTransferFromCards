@@ -10,9 +10,6 @@ import java.util.List;
 @Repository
 public interface IMoneyTransferRepository extends CrudRepository<MoneyTransfer, Long> {
 
-
-
-
     Iterable<MoneyTransfer> findAllByIncomingCardNumberAndAmountOfMoneyBetween(
             long cardNumber, float amountOfMoneyFrom, float amountOfMoneyTo);
 
@@ -43,13 +40,13 @@ public interface IMoneyTransferRepository extends CrudRepository<MoneyTransfer, 
     Iterable<List<Float>> findSumOfTransfersByIncomingAccountsForPeriod(
             Iterable<Long> cardNumber, long timeToCompleteTransferFrom, long timeToCompleteTransferTo);
 
-    //▪	Отношение поступлений к тратам / поступления
+    //▪	поступления по переданому перенб карт за период
     @Query(value = "select sum(mt.amountOfMoney)  from MoneyTransfer mt " +
             "where mt.incomingCardNumber in ?1 and (mt.timeToCompleteTransfer >= ?2 and mt.timeToCompleteTransfer <= ?3)")
     Float amountOfIncomingTransfers(
             Iterable<Long> cardNumber, long timeToCompleteTransferFrom, long timeToCompleteTransferTo);
 
-    //▪	Отношение поступлений к тратам / траты
+    //▪	траты по переданому перенб карт за период
     @Query(value = "select sum(mt.amountOfMoney)  from MoneyTransfer mt " +
             "where mt.outgoingCardNumber in ?1 and (mt.timeToCompleteTransfer >= ?2 and mt.timeToCompleteTransfer <= ?3)")
     Float amountOfOutgoingTransfers(

@@ -32,26 +32,14 @@ public class MoneyTransferService implements IMoneyTransferService {
     @Transactional
     @Override
     public void makeTransaction(MoneyTransfer moneyTransfer) throws DuringOperationExecutionException {
-        cardService.makeTransaction(moneyTransfer.getOutgoingCardNumber(), moneyTransfer.getIncomingCardNumber(), moneyTransfer.getAmountOfMoney());
+        cardService.makeTransaction(
+                moneyTransfer.getOutgoingCardNumber(),
+                moneyTransfer.getIncomingCardNumber(),
+                moneyTransfer.getAmountOfMoney());
         if (moneyTransfer.getTimeToCompleteTransfer() == 0) {
             moneyTransfer.setTimeToCompleteTransfer(System.currentTimeMillis());
         }
         moneyTransferRepository.save(moneyTransfer);
-    }
-
-    @Transactional
-    @Override
-    public MoneyTransferDTO makeTransactionWithDTO(MoneyTransferDTO moneyTransferDTO) throws DuringOperationExecutionException {
-        cardService
-                .makeTransaction(
-                        moneyTransferDTO.getOutgoingCardNumber(),
-                        moneyTransferDTO.getIncomingCardNumber(),
-                        moneyTransferDTO.getAmountOfMoney()
-                );
-        if (moneyTransferDTO.getTimeToCompleteTransfer() == 0) {
-            moneyTransferDTO.setTimeToCompleteTransfer(System.currentTimeMillis());
-        }
-        return fromMoneyTransfer(moneyTransferRepository.save(fromMoneyTransferDTO(moneyTransferDTO)));
     }
 
     @Transactional
@@ -110,6 +98,21 @@ public class MoneyTransferService implements IMoneyTransferService {
                                         timeToCompleteTransferTo)));
 
         return result;
+    }
+
+    @Transactional
+    @Override
+    public MoneyTransferDTO makeTransactionWithDTO(MoneyTransferDTO moneyTransferDTO) throws DuringOperationExecutionException {
+        cardService
+                .makeTransaction(
+                        moneyTransferDTO.getOutgoingCardNumber(),
+                        moneyTransferDTO.getIncomingCardNumber(),
+                        moneyTransferDTO.getAmountOfMoney()
+                );
+        if (moneyTransferDTO.getTimeToCompleteTransfer() == 0) {
+            moneyTransferDTO.setTimeToCompleteTransfer(System.currentTimeMillis());
+        }
+        return fromMoneyTransfer(moneyTransferRepository.save(fromMoneyTransferDTO(moneyTransferDTO)));
     }
 
     @Override

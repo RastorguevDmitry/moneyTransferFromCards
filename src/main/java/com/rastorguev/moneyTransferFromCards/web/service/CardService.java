@@ -84,12 +84,11 @@ public class CardService implements ICardService {
     public void makeTransaction(long outgoingCardNumber, long incomingCardNumber, float amountOfMoney) throws DuringOperationExecutionException {
         Card outgoingCard = findCardByCardNumber(outgoingCardNumber);
         Card incomingCard = findCardByCardNumber(incomingCardNumber);
-
         float outgoingCardAmountOfMoneyBeforeTransaction;
         float incomingCardAmountOfMoneyBeforeTransaction;
-
         int outgoingCardRowUpdate = 0;
         int incomingCardRowUpdate = 0;
+
         for (int i = 0; i < 10; i++) {
 
             if (outgoingCardRowUpdate == 0) {

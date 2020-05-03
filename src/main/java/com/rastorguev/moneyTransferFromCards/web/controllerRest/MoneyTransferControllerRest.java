@@ -35,7 +35,9 @@ public class MoneyTransferControllerRest {
 
 
     @PostMapping("/transfer")
-    public ResponseEntity<MoneyTransferDTO> transferRequest(@RequestBody MoneyTransferDTO moneyTransferDTO) throws NoSuchElement, WrongValueException, DuringOperationExecutionException {
+    public ResponseEntity<MoneyTransferDTO> transferRequest(
+                                            @RequestBody MoneyTransferDTO moneyTransferDTO)
+                                            throws NoSuchElement, WrongValueException, DuringOperationExecutionException {
 
         //TODO авторизация
         UserDTO userDTO = userService.fromUser(
@@ -59,8 +61,9 @@ public class MoneyTransferControllerRest {
             throw new NoSuchElement("у вас нет такой карты");
         }
         if (outgoingCard.getAmountOfMoneyOnCard() < moneyTransferDTO.getAmountOfMoney()) {
-            throw new WrongValueException("у вас не достаточно денег на счету");
+            throw new WrongValueException("у вас недостаточно денег на счету");
         }
+
 
         long incomingCardOwnerID = cardService
                 .findOwnerIdByCardNumber(
@@ -68,6 +71,7 @@ public class MoneyTransferControllerRest {
                                 .getIncomingCardNumber()
                 );
 
+        //проверка существования карты получателя
         UserDTO incomingCardUserDTO = userService
                 .fromUser(
                         userService

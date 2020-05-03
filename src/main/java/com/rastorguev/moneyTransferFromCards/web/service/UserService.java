@@ -51,20 +51,19 @@ public class UserService implements IUserService {
     }
 
 
-
     @Override
     public User createUserFromUserRegisterDTO(UserRegisterDTO userRegisterDTO) {
         User newUser = userRepository.save(new User(userRegisterDTO.getLastName(), userRegisterDTO.getFirstName(), userRegisterDTO.getMiddleName()));
-        UserPrivateData userPrivateData = userPrivateDataRepository
+        userPrivateDataRepository
                 .save(
-                new UserPrivateData(
-                        userRegisterDTO.getLogin(),
-                        userRegisterDTO.getPassword(),
-                        newUser.getId()));
+                        new UserPrivateData(
+                                userRegisterDTO.getLogin(),
+                                userRegisterDTO.getPassword(),
+                                newUser.getId()));
         return newUser;
     }
 
-    public  UserDTO fromUser(User user) {
+    public UserDTO fromUser(User user) {
         UserDTO userDTO = new UserDTO(user.getId(), user.getLastName(), user.getFirstName(), user.getMiddleName());
         return userDTO;
     }

@@ -24,7 +24,6 @@ import static com.rastorguev.moneyTransferFromCards.web.constants.Constants.THIR
 @SessionAttributes("currentUser")
 public class MoneyTransferController {
 
-
     final
     ICardService cardService;
     final

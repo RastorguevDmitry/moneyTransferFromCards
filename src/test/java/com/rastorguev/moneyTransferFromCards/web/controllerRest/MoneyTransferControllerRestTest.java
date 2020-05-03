@@ -4,8 +4,8 @@ import com.rastorguev.moneyTransferFromCards.web.Constants;
 import com.rastorguev.moneyTransferFromCards.web.dto.MoneyTransferDTO;
 import com.rastorguev.moneyTransferFromCards.web.entity.Card;
 import com.rastorguev.moneyTransferFromCards.web.service.CardService;
+import org.junit.Test;
 import org.junit.jupiter.api.RepeatedTest;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,9 +36,7 @@ class MoneyTransferControllerRestTest {
     CardService cardService;
 
 
-
-
-    @RepeatedTest(20)
+    @Test
     void transferRequest() {
 
         ResponseEntity<MoneyTransferDTO> response = template.postForEntity("/rest/transfers/transfer", Constants.moneyTransferDTO, MoneyTransferDTO.class);
@@ -54,7 +52,7 @@ class MoneyTransferControllerRestTest {
     }
 
 
-    @RepeatedTest(10)
+    @RepeatedTest(100)
     void testConcurrentTransferConfirmation() throws InterruptedException {
 
         Card cardFrom = cardService.findCardByCardNumber(7);

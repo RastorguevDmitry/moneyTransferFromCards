@@ -46,7 +46,6 @@ public class LoginControllerRest {
                         userRegisterDTO.getLogin())) {
             throw new SuchElementAlreadyExists("user with such login AlreadyExists");
         } else {
-
             return new ResponseEntity<>(userService
                     .fromUser(
                             userService

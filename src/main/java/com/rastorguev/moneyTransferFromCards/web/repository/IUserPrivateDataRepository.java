@@ -6,5 +6,6 @@ import org.springframework.data.repository.CrudRepository;
 public interface IUserPrivateDataRepository extends CrudRepository<UserPrivateData, Long> {
 
     UserPrivateData findByLoginAndPassword(String login, String password);
+
     boolean existsByLogin(String login);
 }

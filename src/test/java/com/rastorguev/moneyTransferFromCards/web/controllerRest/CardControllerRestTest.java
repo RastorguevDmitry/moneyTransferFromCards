@@ -2,8 +2,6 @@ package com.rastorguev.moneyTransferFromCards.web.controllerRest;
 
 import com.rastorguev.moneyTransferFromCards.web.Constants;
 import com.rastorguev.moneyTransferFromCards.web.dto.CardDTO;
-import com.rastorguev.moneyTransferFromCards.web.entity.User;
-import com.rastorguev.moneyTransferFromCards.web.entity.UserPrivateData;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.runner.RunWith;
@@ -17,7 +15,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.List;
 
-import static org.apache.commons.lang3.RandomStringUtils.randomAlphabetic;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ActiveProfiles("test")
@@ -28,22 +25,6 @@ class CardControllerRestTest {
 
     @Autowired
     private TestRestTemplate template;
-
-    private User createRandomUser() {
-        User user = new User();
-        user.setFirstName(randomAlphabetic(10));
-        user.setLastName(randomAlphabetic(10));
-        user.setMiddleName(randomAlphabetic(10));
-        return user;
-    }
-
-    private UserPrivateData createRandomUserPrivateData() {
-        UserPrivateData userPrivateData = new UserPrivateData();
-        userPrivateData.setLogin(randomAlphabetic(10));
-        userPrivateData.setPassword(randomAlphabetic(10));
-        return userPrivateData;
-    }
-
 
     @Test
     void createNewCardShouldReturnCreatedAndNextCard() {
@@ -64,7 +45,9 @@ class CardControllerRestTest {
 
     @Test
     public void cardBalanceShouldReturnOkAndCorrectBalance() {
-        ResponseEntity<Float> responseEntity = template.postForEntity("/rest/cards/balance/" + Constants.firstExistingCardNumberBelongUser1, Constants.testUserDTO, Float.class);
+        ResponseEntity<Float> responseEntity = template.postForEntity("/rest/cards/balance/" + Constants.firstExistingCardNumberBelongUser1,
+                Constants.testUserDTO,
+                Float.class);
         Float actual = responseEntity.getBody();
         Float expected = 100f;
         assertEquals(responseEntity.getStatusCode(), HttpStatus.OK);
